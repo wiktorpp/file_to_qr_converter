@@ -1,23 +1,26 @@
-# line 157 in pyqrcode needs to be changed from 
-# "self.data = content.decode(encoding)" 
-# to 
-# "self.data = content", 
-# else the program will error out
-
-import pyqrcode
 import sys
 import bz2
 
-#data = open(sys.argv[1], "rb").read()
-print("Compressing...")
-#data = bz2.compress(data)
+csv = reversed(open(sys.argv[1], 'r').read().split('\n')[1:-1])
+output = b''
+#print(list(csv))
+for line in csv:
+    line = line.replace('"', '').split(";")
+    #print(line)
+    if line[1] != 'QR_CODE':
+        print(f"error: {line[2]} not qr code, skipping")
+        continue
+    try:
+        data = bytes.fromhex(line[2])
+        output += data
+    except ValueError:
+        print(f'error: "{line[2]}" not hex, skipping')
 
-data = bytes([0xff, 0xff, 0x00])
-
-print(data)
-
-#img = pyqrcode.create(data, version=27, mode='binary')
-img = pyqrcode.create(data, error='L', mode='binary')
-img.show()
-#import pdb; pdb.set_trace()
-#img.png(sys.argv[1]+".png")
+#print(output)
+print("Decompressing...")
+try:
+    output = bz2.decompress(output)
+except:
+    print("Failed to decompress, data not comopressed")
+print("Writing: " + sys.argv[1].split(".csv")[0])
+open(sys.argv[1].split(".csv")[0], "wb").write(output)
