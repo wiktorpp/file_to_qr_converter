@@ -18,4 +18,4 @@ chunks = [data[i:i+n] for i in range(0, len(data), n)]
 for i, chunk in enumerate(chunks):
     img = segno.make(chunk, micro=False)
     #img.show()
-    img.png(f"{sys.argv[1]}{'.bz2' if compress else ''}.pt{str(i)}.png")
+    img.save(f"{sys.argv[1]}{'.bz2' if compress else ''}.pt{str(i)}.png")
