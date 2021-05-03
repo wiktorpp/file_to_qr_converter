@@ -1,9 +1,3 @@
-# line 157 in pyqrcode needs to be changed from 
-# "self.data = content.decode(encoding)" 
-# to 
-# "self.data = content", 
-# else the program will error out
-
 compress = False
 
 import sys
