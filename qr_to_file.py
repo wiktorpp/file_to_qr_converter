@@ -23,4 +23,4 @@ try:
 except:
     print("Failed to decompress, data not comopressed")
 print("Writing: " + sys.argv[1].split(".csv")[0])
-open(sys.argv[1].split(".csv")[0], "wb").write(output)
+open(sys.argv[1].replace(".csv", ""), "wb").write(output)
