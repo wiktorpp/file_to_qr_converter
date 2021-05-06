@@ -1,6 +1,9 @@
 import sys
 import bz2
 
+if len(sys.argv) != 2: raise ValueError("Filename not specified")
+if not sys.argv[1].endswith(".csv"): raise ValueError('Wrong file format (not ".csv"), please supply output from Binary Eye (CSV file with semicolons)')
+
 csv = reversed(open(sys.argv[1], 'r').read().split('\n')[1:-1])
 output = b''
 #print(list(csv))
