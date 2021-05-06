@@ -4,11 +4,15 @@ import bz2
 if len(sys.argv) != 2: raise ValueError("Filename not specified")
 if not sys.argv[1].endswith(".csv"): raise ValueError('Wrong file format (not ".csv"), please supply output from Binary Eye (CSV file with semicolons)')
 
-csv = reversed(open(sys.argv[1], 'r').read().split('\n')[1:-1])
+try:
+    csv = reversed(open(sys.argv[1], 'r').read().split('\n')[1:-1])
+except FileNotFoundError: raise FileNotFoundError("No such file")
+
 output = b''
 #print(list(csv))
 for line in csv:
     line = line.replace('"', '').split(";")
+    if len(line) == 1: raise ValueError("Wrong file format (not CSV file with semicolons)")
     #print(line)
     if line[1] != 'QR_CODE':
         print(f"error: {line[2]} not qr code, skipping")
