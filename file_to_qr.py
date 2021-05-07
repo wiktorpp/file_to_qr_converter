@@ -1,8 +1,8 @@
-compress = False
-
 import sys
 import bz2
 import segno
+
+compress = False
 
 data = open(sys.argv[1], "rb").read()
 if compress:
